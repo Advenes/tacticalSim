@@ -1,0 +1,30 @@
+# Visual Studio
+.vs/
+.vscode/
+*.vcxproj.user
+*.suo
+*.sdf
+*.opendb
+*.VC.db
+
+# Build output
+bin/
+obj/
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+
+# Backup / logs
+*.log
+*.tmp
+
+# Premake generated files
+*.make
+*.xcodeproj
+*.xcworkspace
+
+# OS files
+Thumbs.db
+.DS_Store
