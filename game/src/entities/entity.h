@@ -4,7 +4,6 @@
 #include "raylib.h"
 #include <unordered_map>
 #include <memory>
-#include "eventHandler.h"
 
 enum class Type {
 	TYPENULL = 0,
@@ -76,7 +75,6 @@ public:
 	int manpower;
 	bool comunication;
 	Experience experience;
-	Order* currentOrder = new Order;
 	uint8_t step = 0;
 
 	Texture2D texture;
@@ -106,12 +104,6 @@ public:
 		}
 	}
 
-	~Unit() {
-		delete currentOrder;
-	}
-
-	void addOrder(Order* order);
-	void clearOrder();
 };
 
 class Infantry : public Unit {

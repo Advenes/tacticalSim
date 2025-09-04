@@ -111,7 +111,7 @@ void InputHandler::mouseInput(EntityHandler* entityHandler, Camera2D* camera, Ev
         id orderId = eventHandler->orderHandler.addOrder(std::make_unique<MovingOrder>(Speed::NORMAL));
         Order* order = eventHandler->orderHandler.orders[orderId].get();
         for (auto unit : entityHandler->selectedUnits) {
-            unit->currentOrder = order;
+            eventHandler->orderHandler.orders[orderId]->unitsFollowing.push_back(unit);
         }
 
         Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *camera);

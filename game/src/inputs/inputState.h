@@ -1,5 +1,5 @@
 #pragma once
-#include "entity.h"
+#include "./entities/entity.h"
 
 struct InputState {
     bool selecting = false;

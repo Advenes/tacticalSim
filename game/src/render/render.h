@@ -3,8 +3,8 @@
 #include <iostream>
 #include "raylib.h"
 #include "raymath.h"
-#include "entity.h"
-#include "inputState.h"
+#include "./entities/entity.h"
+#include "./inputs/inputState.h"
 
 class Render {
 public:

@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <memory>
 #include <queue>
+#include <./entities/entity.h>
 
 using id = uint32_t;
 
@@ -14,10 +15,14 @@ public:
 
 class Order {
 public:
-	id orderId = 0;
+	std::vector<Unit*> unitsFollowing;
 	Order() {}
 	virtual ~Order() = default;
 	id getId();
+	void setId(id _id);
+
+private:
+	id orderId = 0;
 };
 
 enum class Speed {
@@ -62,4 +67,3 @@ class EventHandler {
 public:
 	OrderHandler orderHandler;
 };
-

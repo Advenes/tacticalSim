@@ -2,11 +2,11 @@
 #include "raymath.h"
 #include "lib.h"
 
-#include "game.h"  
-#include "inputHandler.h"
-#include "render.h"
-#include "entity.h"
-#include "eventHandler.h"
+#include "core/game.h"  
+#include "inputs/inputHandler.h"
+#include "render/render.h"
+#include "entities/entity.h"
+#include "events/eventHandler.h"
 
 void GameInit()
 {

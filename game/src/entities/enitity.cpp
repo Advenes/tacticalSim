@@ -47,15 +47,6 @@ Texture2D Entity::svgToPng(std::string path) {
 	return texture;
 }
 
-void Unit::addOrder(Order* order) {
-	currentOrder = order;
-}
-
-void Unit::clearOrder() {
-	currentOrder = nullptr;
-	step = 0;
-}
-
 void EntityHandler::addToArray(std::unique_ptr<Entity> entity) {
 	entity->id = nextId++;
 	std::cout << "pushed Entity into array with id: " << entity->id << '\n';

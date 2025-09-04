@@ -2,11 +2,11 @@
 #include <iostream>
 #include "raylib.h"
 #include "raymath.h"
-#include "game.h"
-#include "entity.h"
-#include "render.h"
+#include "./core/game.h"
+#include "./entities/entity.h"
+#include "./render/render.h"
 #include "inputState.h"
-#include "eventHandler.h"
+#include "./events/eventHandler.h"
 
 class InputHandler {
 public:

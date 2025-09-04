@@ -296,24 +296,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\audioHandler.h" />
-    <ClInclude Include="include\eventHandler.h" />
-    <ClInclude Include="include\game.h" />
-    <ClInclude Include="include\inputHandler.h" />
-    <ClInclude Include="include\inputState.h" />
+    <ClInclude Include="src\audio\audioHandler.h" />
+    <ClInclude Include="src\events\eventHandler.h" />
+    <ClInclude Include="src\core\game.h" />
+    <ClInclude Include="src\inputs\inputHandler.h" />
+    <ClInclude Include="src\inputs\inputState.h" />
     <ClInclude Include="include\nanosvg.h" />
     <ClInclude Include="include\nanosvgrast.h" />
-    <ClInclude Include="include\render.h" />
+    <ClInclude Include="src\render\render.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\entity.h" />
-    <ClCompile Include="src\AudioHandler.cpp" />
-    <ClCompile Include="src\enitity.cpp" />
-    <ClCompile Include="src\eventHandler.cpp" />
-    <ClCompile Include="src\game.cpp" />
-    <ClCompile Include="src\inputHandler.cpp" />
+    <ClCompile Include="src\entities\entity.h" />
+    <ClCompile Include="src\audio\AudioHandler.cpp" />
+    <ClCompile Include="src\entities\enitity.cpp" />
+    <ClCompile Include="src\events\eventHandler.cpp" />
+    <ClCompile Include="src\core\game.cpp" />
+    <ClCompile Include="src\inputs\inputHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\render.cpp" />
+    <ClCompile Include="src\render\render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">
