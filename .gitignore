@@ -12,7 +12,6 @@ bin/
 obj/
 *.exe
 *.dll
-*.lib
 *.pdb
 *.ilk
 
