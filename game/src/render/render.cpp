@@ -141,6 +141,8 @@ void Render::renderer(Camera2D *camera, EntityHandler* entityHandler, InputState
 				float text_x = (GetScreenWidth() - ((690 - (i * 410)) * ratio)) / 2.0f;
 				float text_y = GetScreenHeight() - ((270 - (j * 50)) * ratio);
 
+				// na mape konwert
+
 				std::string text;
 				if (i == 1 && j == 1) text = std::to_string(unit->manpower);
 				else if (i == 1 && j == 2) text = std::to_string(unit->speed);

@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <memory>
 #include <queue>
-#include <./entities/entity.h>
+#include <entities/entity.h>
 
 using id = uint32_t;
 

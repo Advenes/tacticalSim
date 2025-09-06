@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="game">
+      <UniqueIdentifier>{9F35977C-8B6C-980D-3459-7E10206F140F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\include">
+      <UniqueIdentifier>{128CD33A-FEEE-62DF-A774-9B9593B62E62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src">
+      <UniqueIdentifier>{36AB82BA-2278-DDC5-4B91-CB6D37BD1254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src\audio">
+      <UniqueIdentifier>{D7591FEC-C327-13F2-ACBB-83189828EF56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src\core">
+      <UniqueIdentifier>{6ECD66FF-DA8D-E235-A3C8-2BB30F482712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src\entities">
+      <UniqueIdentifier>{CA5C8958-3673-87EE-7FEA-1210EB3F5876}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src\events">
+      <UniqueIdentifier>{7AF27179-E67D-DF3D-EF8E-62325B993B3E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src\inputs">
+      <UniqueIdentifier>{E8F63B82-5482-A946-5D93-2C3BC99D0547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src\render">
+      <UniqueIdentifier>{05259696-71B0-035B-7AC1-864FE6CB5F5B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="raylib-master">
+      <UniqueIdentifier>{61FD63D4-CDBD-DF0A-96F8-2888027824E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="raylib-master\include">
+      <UniqueIdentifier>{D4F5C4A0-4062-809B-0956-18F97581A203}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game\include\nanosvg.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="game\include\nanosvgrast.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="raylib-master\include\raylib.h">
+      <Filter>raylib-master\include</Filter>
+    </ClInclude>
+    <ClInclude Include="raylib-master\include\raymath.h">
+      <Filter>raylib-master\include</Filter>
+    </ClInclude>
+    <ClInclude Include="raylib-master\include\rlgl.h">
+      <Filter>raylib-master\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="game\src\audio\AudioHandler.cpp">
+      <Filter>game\src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="game\src\core\game.cpp">
+      <Filter>game\src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="game\src\entities\enitity.cpp">
+      <Filter>game\src\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="game\src\events\eventHandler.cpp">
+      <Filter>game\src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="game\src\inputs\inputHandler.cpp">
+      <Filter>game\src\inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="game\src\main.cpp">
+      <Filter>game\src</Filter>
+    </ClCompile>
+    <ClCompile Include="game\src\render\render.cpp">
+      <Filter>game\src\render</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

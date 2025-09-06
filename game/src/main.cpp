@@ -1,7 +1,5 @@
 #include "raylib.h"
 #include "raymath.h"
-#include "lib.h"
-
 #include "core/game.h"  
 #include "inputs/inputHandler.h"
 #include "render/render.h"
