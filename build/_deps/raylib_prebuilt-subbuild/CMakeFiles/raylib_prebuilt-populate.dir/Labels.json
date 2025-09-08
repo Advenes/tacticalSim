@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/CMakeFiles/raylib_prebuilt-populate"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/CMakeFiles/raylib_prebuilt-populate.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/CMakeFiles/CMakeFiles/raylib_prebuilt-populate-complete.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-build.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-configure.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-download.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-install.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-mkdir.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-patch.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-test.rule"
+		},
+		{
+			"file" : "/Users/admin/Documents/tacticalSim/build/_deps/raylib_prebuilt-subbuild/raylib_prebuilt-populate-prefix/src/raylib_prebuilt-populate-stamp/CMakeFiles/raylib_prebuilt-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"raylib_prebuilt-populate"
+		],
+		"name" : "raylib_prebuilt-populate"
+	}
+}

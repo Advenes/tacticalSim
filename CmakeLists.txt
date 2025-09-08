@@ -1,0 +1,96 @@
+cmake_minimum_required(VERSION 3.16)
+
+# --- Auto-select generator if not provided ---
+if(NOT CMAKE_GENERATOR)
+    if(WIN32)
+        message(STATUS "No generator specified → defaulting to Visual Studio 2022 (x64)")
+        set(CMAKE_GENERATOR "Visual Studio 17 2022" CACHE INTERNAL "" FORCE)
+        set(CMAKE_GENERATOR_PLATFORM "x64" CACHE INTERNAL "" FORCE)
+    elseif(APPLE)
+        message(STATUS "No generator specified → defaulting to Xcode")
+        set(CMAKE_GENERATOR "Xcode" CACHE INTERNAL "" FORCE)
+    elseif(UNIX)
+        message(STATUS "No generator specified → defaulting to Unix Makefiles")
+        set(CMAKE_GENERATOR "Unix Makefiles" CACHE INTERNAL "" FORCE)
+    else()
+        message(FATAL_ERROR "Unsupported OS, please specify a generator manually")
+    endif()
+endif()
+
+project(tacticalSim CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Configurations
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type (Debug or Release)" FORCE)
+endif()
+
+# Output directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+
+# ========== DOWNLOAD RAYLIB ==========
+include(FetchContent)
+
+set(RAYLIB_VERSION 5.5)
+
+if(WIN32)
+    set(RAYLIB_URL "https://github.com/raysan5/raylib/releases/download/${RAYLIB_VERSION}/raylib-${RAYLIB_VERSION}_win64_msvc16.zip")
+elseif(APPLE)
+    set(RAYLIB_URL "https://github.com/raysan5/raylib/releases/download/${RAYLIB_VERSION}/raylib-${RAYLIB_VERSION}_macos.tar.gz")
+elseif(UNIX)
+    set(RAYLIB_URL "https://github.com/raysan5/raylib/releases/download/${RAYLIB_VERSION}/raylib-${RAYLIB_VERSION}_linux_amd64.tar.gz")
+endif()
+
+FetchContent_Declare(raylib_prebuilt URL ${RAYLIB_URL})
+FetchContent_MakeAvailable(raylib_prebuilt)
+
+set(RAYLIB_INCLUDE_DIR ${raylib_prebuilt_SOURCE_DIR}/include)
+set(RAYLIB_LIB_DIR ${raylib_prebuilt_SOURCE_DIR}/lib)
+
+# ========== PROJECT: GAME ==========
+file(GLOB_RECURSE GAME_SOURCES "game/src/*.cpp")
+file(GLOB_RECURSE GAME_HEADERS "game/include/*.h")
+
+add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
+
+target_include_directories(game PRIVATE
+    game/src
+    game/include
+    ${RAYLIB_INCLUDE_DIR}
+)
+
+if(WIN32)
+    target_link_libraries(game
+        ${RAYLIB_LIB_DIR}/raylib.lib
+        winmm gdi32 opengl32
+    )
+    target_compile_definitions(game PRIVATE _CRT_SECURE_NO_WARNINGS)
+elseif(APPLE)
+    target_link_libraries(game
+        ${RAYLIB_LIB_DIR}/libraylib.a
+        "-framework OpenGL"
+        "-framework Cocoa"
+        "-framework IOKit"
+        "-framework CoreAudio"
+    )
+elseif(UNIX)
+    target_link_libraries(game
+        ${RAYLIB_LIB_DIR}/libraylib.a pthread dl m)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(game PRIVATE DEBUG)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_compile_options(game PRIVATE -O2)
+endif()
+
+
+if(APPLE)
+    # Make Xcode run the executable with the project root as the working directory
+    set_target_properties(game PROPERTIES
+        XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}"
+        XCODE_ATTRIBUTE_EXECUTABLE_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    )
+endif()

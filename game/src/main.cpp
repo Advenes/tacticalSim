@@ -9,7 +9,7 @@
 void GameInit()
 {
     SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
-    InitWindow(InitalWidth, InitalHeight, "Example");
+    InitWindow(InitalWidth, InitalHeight, "tacticalSim");
     SetTargetFPS(144);
     srand(time(NULL));
 

@@ -4,32 +4,33 @@
 #include <string>
 
 void Render::generateMapTerrainTxt() {
-	mapTexture = LoadTexture("C:/Users/Admin/Desktop/tacticalSim/game/images/map/terrain.png");
+    mapTexture = LoadTexture("game/images/map/terrain.png");
 }
 
 void Render::generateMapHeightTxt() {
-	mapHeight = LoadTexture("C:/Users/Admin/Desktop/tacticalSim/game/images/map/heightmap.png");
+    mapHeight = LoadTexture("game/images/map/heightmap.png");
 }
 
 void Render::generateHudTxt() {
-	unitHud = LoadTexture("C:/Users/Admin/Desktop/tacticalSim/game/images/interface/selectedUnit.png");
+    unitHud = LoadTexture("game/images/interface/selectedUnit.png");
 }
 
 void Render::generateLoc() {
 	Loc.resize(7);
-	Loc[0] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/squad.svg"); // SQUAD
-	Loc[1] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/platoon.svg"); // platoon
-	Loc[2] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/company.svg"); // company
-	Loc[3] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/battalion.svg"); // battalion
-	Loc[4] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/regiment.svg"); // regiment
-	Loc[5] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/brigade.svg"); // brigade
-	Loc[6] = Entity::svgToPng("C:/Users/Admin/Desktop/tacticalSim/game/images/entities/levelOfCommand/division.svg"); // division
+    Loc[0] = Entity::svgToPng("game/images/entities/levelOfCommand/squad.svg");
+    Loc[1] = Entity::svgToPng("game/images/entities/levelOfCommand/platoon.svg");
+    Loc[2] = Entity::svgToPng("game/images/entities/levelOfCommand/company.svg");
+    Loc[3] = Entity::svgToPng("game/images/entities/levelOfCommand/battalion.svg");
+    Loc[4] = Entity::svgToPng("game/images/entities/levelOfCommand/regiment.svg");
+    Loc[5] = Entity::svgToPng("game/images/entities/levelOfCommand/brigade.svg");
+    Loc[6] = Entity::svgToPng("game/images/entities/levelOfCommand/division.svg");
+
 }
 
 void Render::generatePortraits() {
 	int portraits = 8;
 	for (int i = 1; i <= portraits; i++) {
-		std::string path = "C:/Users/Admin/Desktop/tacticalSim/game/images/interface/commanders/" + std::to_string(i) + ".png";
+		std::string path = "game/images/interface/commanders/" + std::to_string(i) + ".png";
 		Portraits.push_back(LoadTexture(path.c_str()));
 	}
 }
@@ -56,7 +57,7 @@ void Render::unloadAll() {
 }
 
 void Render::loadFonts() {
-	euroStyle = LoadFont("C:/Users/Admin/Desktop/tacticalSim/game/fonts/EuroStyle Normal.ttf");
+    euroStyle = LoadFont("game/fonts/EuroStyle Normal.ttf");
 }
 
 void Render::renderer(Camera2D *camera, EntityHandler* entityHandler, InputState* inputState) {

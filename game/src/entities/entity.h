@@ -110,7 +110,7 @@ class Infantry : public Unit {
 public:
 	short int Portrait;
 	Infantry(Position pos_, LevelOfCommand level) : Unit(pos_, level) {
-		std::string path = "C:/Users/Admin/Desktop/tacticalSim/game/images/entities/tacticalIcons/infantry.svg";
+		std::string path = "game/images/entities/tacticalIcons/infantry.svg";
 		texture = svgToPng(path);
 		Portrait = rand() % 8;
 

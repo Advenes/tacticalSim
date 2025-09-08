@@ -1,0 +1,3 @@
+/Users/admin/Documents/tacticalSim/build/CMakeFiles/game.dir
+/Users/admin/Documents/tacticalSim/build/CMakeFiles/ALL_BUILD.dir
+/Users/admin/Documents/tacticalSim/build/CMakeFiles/ZERO_CHECK.dir

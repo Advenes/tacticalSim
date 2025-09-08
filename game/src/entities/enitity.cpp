@@ -6,13 +6,17 @@
 #define NANOSVGRAST_IMPLEMENTATION
 #include "nanosvgrast.h"
 
-Texture2D Entity::svgToPng(std::string path) {
-	std::cout << "test" << '\n';
-	NSVGimage* image = nsvgParseFromFile(path.c_str(), "px", 96.0f);
-	if (!image) {
-		std::cout << "ERROR: Failed to parse SVG file at path: " << path << std::endl;
-		return Texture2D();
-	}
+#include <filesystem>
+namespace fs = std::filesystem;
+
+Texture2D Entity::svgToPng(std::string relativePath) {
+    std::string path = (fs::current_path() / relativePath).string();
+    NSVGimage* image = nsvgParseFromFile(path.c_str(), "px", 96.0f);
+    std::cout << "directory: " << path << '\n';
+    if (!image) {
+        std::cout << "ERROR: Failed to parse SVG file at path: " << path << std::endl;
+        return Texture2D();
+    }
 	std::cout << "boom";
 	NSVGrasterizer* rast = nsvgCreateRasterizer();
 	if (!rast) {
