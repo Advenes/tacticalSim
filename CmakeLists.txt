@@ -50,16 +50,16 @@ set(RAYLIB_INCLUDE_DIR ${raylib_prebuilt_SOURCE_DIR}/include)
 set(RAYLIB_LIB_DIR ${raylib_prebuilt_SOURCE_DIR}/lib)
 
 # ========== PROJECT: GAME ==========
-file(GLOB_RECURSE GAME_SOURCES "game/src/*.cpp")
-file(GLOB_RECURSE GAME_HEADERS "game/include/*.h")
-
+file(GLOB_RECURSE GAME_SOURCES "game/**/*.cpp")
+file(GLOB_RECURSE GAME_HEADERS "game/**/*.h")
 add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
 
 target_include_directories(game PRIVATE
     game/src
-    game/include
     ${RAYLIB_INCLUDE_DIR}
 )
+
+
 
 if(WIN32)
     target_link_libraries(game

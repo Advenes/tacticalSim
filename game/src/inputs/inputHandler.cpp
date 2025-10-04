@@ -1,124 +1,116 @@
 #include "inputHandler.h"
 
 
-void InputHandler::inputReciever(Camera2D* cam, Render* render) {
+void InputHandler::inputReciever() {
     float wheelMove = GetMouseWheelMove();
-    float zoomMagnifier = 0.1f;
+    float zoomMagnifier = 0.05f;
 
-    float centerX = GetScreenWidth() / 2.0f / cam->zoom;
-    float centerY = GetScreenHeight() / 2.0f / cam->zoom;
+//    std::cout << '\n' << cam->getZoom() << '\n';
+    float centerX = GetScreenWidth() / 2.0f / cam->getZoom();
+    float centerY = GetScreenHeight() / 2.0f / cam->getZoom();
 
     if (wheelMove > 0) {
+        cam->setZoom(cam->getZoom() + zoomMagnifier);
 
-        cam->zoom += (zoomMagnifier);
+        float newCenterX = GetScreenWidth() / 2.0f / cam->getZoom();
+        float newCenterY = GetScreenHeight() / 2.0f / cam->getZoom();
 
-        float newCenterX = GetScreenWidth() / 2.0f / cam->zoom;
-        float newCenterY = GetScreenHeight() / 2.0f / cam->zoom;
-
-        cam->target.x += (centerX - newCenterX);
-        cam->target.y += (centerY - newCenterY);
+        cam->setTargetX(cam->getTargetX() + (centerX - newCenterX));
+        cam->setTargetY(cam->getTargetY() + (centerY - newCenterY));
     }
 
-    else if (wheelMove < 0 && ((cam->zoom - 0.1f) * render->getImageHeight() > GetScreenHeight())) {
-        cam->zoom -= (zoomMagnifier * cam->zoom);
+    else if (wheelMove < 0) {
+        Vector2 bounds = cam->getCameraBound();
 
-        float newCenterX = GetScreenWidth() / 2.0f / cam->zoom;
-        float newCenterY = GetScreenHeight() / 2.0f / cam->zoom;
+        if (((cam->getZoom() - zoomMagnifier) * bounds.y > GetScreenHeight()) &&
+            (cam->getZoom() - zoomMagnifier) * bounds.x > GetScreenWidth()) {
+            cam->setZoom(cam->getZoom() - (zoomMagnifier * cam->getZoom()));
 
-        cam->target.x += (centerX - newCenterX);
-        cam->target.y += (centerY - newCenterY);
+            float newCenterX = GetScreenWidth() / 2.0f / cam->getZoom();
+            float newCenterY = GetScreenHeight() / 2.0f / cam->getZoom();
 
-        float viewW = GetScreenWidth() / cam->zoom;
-        float viewH = GetScreenHeight() / cam->zoom;
-
-        if (cam->target.x < 0) cam->target.x = 0;
-        if (cam->target.y < 0) cam->target.y = 0;
-
-        if (cam->target.x + viewW > render->getImageWidth()) {
-            cam->target.x = render->getImageWidth() - viewW;
-        }
-
-        if (cam->target.y + viewH > render->getImageHeight()) {
-            cam->target.y = render->getImageHeight() - viewH;
+            cam->setTargetX(cam->getTargetX() + (centerX - newCenterX));
+            cam->setTargetY(cam->getTargetY() + (centerY - newCenterY));
         }
     }
 
-    if (IsKeyDown(KEY_W) && cam->target.y > 0) cam->target.y -= 5;
-    if (IsKeyDown(KEY_S) && cam->target.y + (GetScreenHeight() / cam->zoom) < render->getImageHeight()) cam->target.y += 5;
-    if (IsKeyDown(KEY_A) && cam->target.x > 0) cam->target.x -= 5;
-    if (IsKeyDown(KEY_D) && cam->target.x + (GetScreenWidth() / cam->zoom) < render->getImageWidth()) cam->target.x += 5;
+    // Movement logic (no moveTarget)
+    float viewW = GetScreenWidth() / cam->getZoom();
+    float viewH = GetScreenHeight() / cam->getZoom();
+    
+    float maxX = cam->getCameraBound().x - viewW;
+    float maxY = cam->getCameraBound().y - viewH;
 
-    if (GetMouseX() > GetScreenWidth() - 10 && cam->target.x + (GetScreenWidth() / cam->zoom) < render->getImageWidth()) {
-        cam->target.x += 2;
+    float x = cam->getTargetX();
+    float y = cam->getTargetY();
+
+    // WASD movement
+    if (IsKeyDown(KEY_W) && y > 0) y -= 5;
+    if (IsKeyDown(KEY_S) && y < maxY) y += 5;
+    if (IsKeyDown(KEY_A) && x > 0) x -= 5;
+    if (IsKeyDown(KEY_D) && x < maxX) x += 5;
+
+//    std::cout << maxX << " " << maxY << '\n';
+//    std::cout << "views " << viewH << " " << viewW << '\n';
+//
+    // Edge-scrolling
+    if (GetMouseX() > GetScreenWidth() - 10 && x < maxX) x += 2;
+    else if (GetMouseX() < 10 && x > 0) x -= 2;
+
+    if (GetMouseY() < 10 && y > 0) y -= 2;
+    else if (GetMouseY() > GetScreenHeight() - 10 && y < maxY) y += 2;
+    
+    // Clamp just in case
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x > maxX) x = maxX;
+    if (y > maxY) y = maxY;
+
+//    std::cout << cam->getTargetY() << cam->getTargetX();
+    cam->setTargetX(x);
+    cam->setTargetY(y);
+    
+    if(IsKeyDown(KEY_SPACE)){
+        if(!inputState.timeKeyPressed){
+            inputState.timeKeyPressed = true;
+            GameTime::get().switchTime();
+            std::cout << "switched";
+        }
     }
-    else if (GetMouseX() < 10 && cam->target.x > 0) {
-        cam->target.x -= 2;
-    }
-    else if (GetMouseY() < 10 && cam->target.y > 0) {
-        cam->target.y -= 2;
-    }
-    else if (GetMouseY() > GetScreenHeight() - 10 && cam->target.y + (GetScreenHeight() / cam->zoom) < render->getImageHeight()) {
-        cam->target.y += 2;
+    else{
+        inputState.timeKeyPressed = false;
     }
 }
 
-void InputHandler::mouseInput(EntityHandler* entityHandler, Camera2D* camera, EventHandler* eventHandler) {
+void InputHandler::mouseInput() {
 
+    Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *cam->getCamera());
+    
+    if(!inputState.selecting && IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
+        inputState.selecting = true;
+        inputState.selPos.x = mouseWorld.x;
+        inputState.selPos.y = mouseWorld.y;
+    }
+    
     // selecting
     if (inputState.selecting && !IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
         inputState.selecting = false;
-
-        Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *camera);
-
-        float startX = inputState.selPos.x;
-        float startY = inputState.selPos.y;
-        float endX = mouseWorld.x;
-        float endY = mouseWorld.y;
-
-        // Normalize rectangle
-        float minX = fminf(startX, endX);
-        float maxX = fmaxf(startX, endX);
-        float minY = fminf(startY, endY);
-        float maxY = fmaxf(startY, endY);
-
-        entityHandler->selectedUnits.clear();
-        entityHandler->selectedUnitsMap.clear();
-
-        for (int i = 0; i < entityHandler->unitsArr.size(); i++) {
-            Entity* ent = entityHandler->unitsArr[i].get();
-            int x = ent->pos.x;
-            int y = ent->pos.y;
-
-            if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
-                entityHandler->selectedUnits.push_back(dynamic_cast<Unit*>(ent));
-                entityHandler->selectedUnitsMap.insert({ ent->id, true });
-                std::cout << "added unit " << entityHandler->unitsArr[i]->id << '\n';
-            }
-        }
-    }
-
-    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !inputState.selecting) {
-        Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *camera);
-        inputState.selPos.x = mouseWorld.x;
-        inputState.selPos.y = mouseWorld.y;
-        inputState.selecting = true;
-    }
-
-    // giving units orders
-    if(entityHandler->selectedUnits.size() > 0 && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-
-        std::cout << '\n' << "given an order to entities" << '\n';
-        id orderId = eventHandler->orderHandler.addOrder(std::make_unique<MovingOrder>(Speed::NORMAL));
-        Order* order = eventHandler->orderHandler.orders[orderId].get();
-        for (auto unit : entityHandler->selectedUnits) {
-            eventHandler->orderHandler.orders[orderId]->unitsFollowing.push_back(unit);
-        }
-
-        Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *camera);
-        MovingOrder* movingOrder = dynamic_cast<MovingOrder*>(order);
-        movingOrder->addMovingPoint(MovePoint(mouseWorld.x, mouseWorld.y));
         
-        std::cout << '\n' << movingOrder->points.front().x << ' ' << movingOrder->points.front().y << '\n';
-        std::cout << "id: " << orderId << '\n';
+        if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !inputState.selecting) {
+             GetScreenToWorld2D(GetMousePosition(), *cam->getCamera());
+            inputState.selPos.x = mouseWorld.x;
+            inputState.selPos.y = mouseWorld.y;
+            inputState.selecting = true;
+        }
+        eventHandler->selectingUnits(mouseWorld, inputState, cam);
+    }
+    
+    if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && !IsKeyDown(KEY_LEFT_SHIFT)){
+        eventHandler->givingOrders(cam);
+    }
+    
+    if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && IsKeyDown(KEY_LEFT_SHIFT)){
+        eventHandler->addToOrders(cam);
     }
 }
+

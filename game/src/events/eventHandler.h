@@ -1,69 +1,31 @@
 #pragma once
 #include <unordered_map>
 #include <memory>
-#include <queue>
-#include <entities/entity.h>
+#include <list>
+#include "entities/entityHandler/entityHandler.h"
+#include "entities/entity.h"
+#include "inputs/inputState.h"
+#include "camera/camera.h"
+#include "orders/orderHandler.h"
 
-using id = uint32_t;
-
-class MovePoint {
-public:
-	int x;
-	int y;
-	MovePoint(int x_ = 0, int y_ = 0) : x(x_), y(y_) {}
-};
-
-class Order {
-public:
-	std::vector<Unit*> unitsFollowing;
-	Order() {}
-	virtual ~Order() = default;
-	id getId();
-	void setId(id _id);
-
-private:
-	id orderId = 0;
-};
-
-enum class Speed {
-	SLOW = 0,
-	NORMAL = 1,
-	FAST = 2
-};
-
-class MovingOrder : public Order {
-public:
-	Speed ordersSpeed;
-	std::queue<MovePoint> points;
-
-	MovingOrder(Speed ordersSpeed_) : Order() {
-		ordersSpeed = ordersSpeed_;
-	}
-
-	void addMovingPoint(MovePoint point);
-	void removeMovingPoint();
-};
-
-
-class OrderHandler{
-public:
-	std::unordered_map<id, std::unique_ptr<Order>> orders;
-	id nextID = 1;
-	OrderHandler() {
-
-	}
-	~OrderHandler() {
-
-	}
-
-	void checkForBlankOrders();
-	void updateOrders();
-
-	id addOrder(std::unique_ptr<Order> order);
-
-};
 
 class EventHandler {
 public:
+    EventHandler(EntityHandler* _entityHandler){
+        entityHandler = _entityHandler;
+    }
 	OrderHandler orderHandler;
+    
+    void executeOrders();
+    
+    void addToOrders(Cam* cam);
+    
+    void givingOrders(Cam* cam);
+    
+    void selectingUnits(Vector2 mouseWorld, InputState inputState, Cam* camera);
+    
+    
+    
+private:
+    EntityHandler* entityHandler;
 };

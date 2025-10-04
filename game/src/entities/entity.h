@@ -5,11 +5,6 @@
 #include <unordered_map>
 #include <memory>
 
-enum class Type {
-	TYPENULL = 0,
-	UNIT = 1
-};
-
 enum class AmmoUsage {
 	SAVEAMMO = 0,
 	BALANCED = 1,
@@ -20,7 +15,7 @@ enum class Experience {
 	CONSCRIPT = 0,
 	REGULAR = 1,
 	EXPIERENCED = 2,
-	VETERANS = 3
+	VETERAN = 3
 };
 
 enum class LevelOfCommand {
@@ -36,118 +31,86 @@ enum class LevelOfCommand {
 
 class Position {
 public:
-	int x, y;
-	Position(int x = 0, int y = 0) : x(x), y(y) {}
+	float x, y;
+	Position(float x = 0, float y = 0) : x(x), y(y) {}
 };
 
-// Single Entity
-
-class Entity { 
+class Entity {
 public:
-	int id;
-	Position pos;
-	Type type;
+    virtual ~Entity() {}
 
-	Entity(Position pos_, Type type_) {
-		pos.x = pos_.x;
-		pos.y = pos_.y;
-		type = type_;
-	}
+    virtual int getId() const = 0;
+    virtual void setId(int id) = 0;
 
-	virtual ~Entity() {}
-
-	static Texture2D svgToPng(std::string path);
+    virtual Position getPosition() const = 0;
+    virtual void setPosition(const Position& pos) = 0;
 };
+
+struct MoreValues{
+    int speed = 4;
+    int organization = 100;
+    int ammo = 100;
+    int food = 100;
+    int entrenchment = 0;
+    int exhaustion = 0;
+    int morale = 100;
+    int softAttack = 25;
+    int hardAttack = 5;
+    int hardness = 0;
+    bool comunication = true;
+    Experience experience = Experience::REGULAR;
+};
+
+class Order;
 
 class Unit : public Entity {
 public:
-	short int unsigned static const paramsCount = 13;
-	int speed;
-	int organization;
-	int ammo;
-	int food;
-	int entrenchment;
-	int exhaustion;
-	int morale;
-	int softAttack;
-	int hardAttack;
-	int hardness;
-	int manpower;
-	bool comunication;
-	Experience experience;
-	uint8_t step = 0;
 
-	Texture2D texture;
-	LevelOfCommand levelOfCommand;
+    Unit(int id_, Position pos_, LevelOfCommand level_)
+        : id(id_), pos(pos_), levelOfCommand(level_) {}
 
-	Unit(Position pos_, LevelOfCommand level) : Entity(pos_, Type::UNIT) {
-		levelOfCommand = level;
-		switch (level) {
-		case LevelOfCommand::SQUAD:
-			manpower = 10;
-			break;
-		case LevelOfCommand::PLATOON:
-			manpower = 40;
-			break;
-		case LevelOfCommand::COMPANY:
-			manpower = 200;
-			break;
-		case LevelOfCommand::BATTALION:
-			manpower = 1000;
-			break;
-		case LevelOfCommand::REGIMENT:
-			manpower = 2000;
-			break;
-		case LevelOfCommand::BRIGADE:
-			manpower = 5000;
-			break;
-		}
-	}
+    virtual ~Unit() {}
+    
+    int getId() const override { return id; }
+    void setId(int _id) override { id = _id; }
 
+    Position getPosition() const override { return pos; }
+    void setPosition(const Position& newPos) override { pos = newPos; }
+
+    LevelOfCommand getLevelOfCommand() const { return levelOfCommand; }
+    void setLevelOfCommand(LevelOfCommand level) { levelOfCommand = level; }
+
+    virtual std::string getTextureID() const = 0;
+    
+    LevelOfCommand getLoc();
+    
+    Order* getCurrentOrder(){
+        return current_order;
+    };
+    void setCurrentOrder(Order* _order){
+        current_order = _order;
+    };
+    
+    MoreValues values;
+    
+protected:
+    int id;
+    Position pos;
+    LevelOfCommand levelOfCommand;
+    Order* current_order = nullptr;
 };
+
 
 class Infantry : public Unit {
 public:
-	short int Portrait;
-	Infantry(Position pos_, LevelOfCommand level) : Unit(pos_, level) {
-		std::string path = "game/images/entities/tacticalIcons/infantry.svg";
-		texture = svgToPng(path);
-		Portrait = rand() % 8;
-
-		// setting up the values
-		speed = 4;
-		organization = 100;
-		ammo = 100;
-		food = 100;
-		entrenchment = 0;
-		exhaustion = 0;
-		morale = 100;
-		softAttack = 25;
-		hardAttack = 5;
-		hardness = 0;
-		comunication = true;
-		experience = Experience::REGULAR;
-
+	short int Portrait = rand() % 8;
+    
+	Infantry(int id, Position pos, LevelOfCommand level) : Unit(id, pos, level) {
 	}
-	~Infantry() {
-		UnloadTexture(texture);
-	}
+    
+    std::string getTextureID() const override {
+        return "infantry";
+    }
+
 };
 
-// Move Point
-
-// Entity handler
-
-class EntityHandler {
-public:
-	std::vector<std::unique_ptr<Entity>> unitsArr;
-	std::vector<Unit*> selectedUnits;
-	std::unordered_map<int, bool> selectedUnitsMap;
-	int nextId = 0;
-
-	EntityHandler() {}
-
-	void addToArray(std::unique_ptr<Entity> entity);
-	void removeFromArray(int id);
-	void CoutArr();
-};
