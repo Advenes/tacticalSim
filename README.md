@@ -16,3 +16,4 @@ brew install cmake
 ```
 
  after installing Cmake, just double-tap on the buildOnMacOS.sh file ;)
+    
