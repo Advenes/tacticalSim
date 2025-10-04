@@ -13,5 +13,6 @@ TacticalSim is my first and the biggest project written in C++.
 
 ```bash
 brew install cmake
+```
 
  after installing Cmake, just double-tap on the buildOnMacOS.sh file ;)
