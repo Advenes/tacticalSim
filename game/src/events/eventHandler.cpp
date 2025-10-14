@@ -112,11 +112,15 @@ void EventHandler::selectingUnits(Vector2 mouseWorld, InputState inputState, Cam
     entityHandler->selectedUnits.clear();
     entityHandler->selectedUnitsMap.clear();
 
+    float scale = 0.55f / cam->getZoom();
+    int width = TextureManager::get().getTexture("infantry")->width;
+    int height = TextureManager::get().getTexture("infantry")->height;
+    
     for (const auto& unitPtr : entityHandler->unitsArr) {
         Unit* unit = unitPtr.get();
         Position position = unit->getPosition();
-
-        if (position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY) {
+        
+        if (position.x  + (width * scale) >= minX && position.x <= maxX && position.y + (height * scale) >= minY && position.y  <= maxY) {
             entityHandler->selectedUnits.push_back(unit);
             entityHandler->selectedUnitsMap.insert({ unit->getId(), true });
             std::cout << "added unit " << unit->getId() << '\n';
@@ -124,4 +128,32 @@ void EventHandler::selectingUnits(Vector2 mouseWorld, InputState inputState, Cam
     }
 }
 
+bool EventHandler::selectOneUnit(Vector2 mouseWorld, Cam* cam){
+    for (const auto& unitPtr : entityHandler->unitsArr) {
+        Unit* unit = unitPtr.get();
+        Position position = unit->getPosition();
+        float scale = 0.55f / cam->getZoom();
 
+        int width = TextureManager::get().getTexture("infantry")->width;
+        int height = TextureManager::get().getTexture("infantry")->height;
+        
+        if (mouseWorld.x > unit->getPosition().x && mouseWorld.x < unit->getPosition().x + (width * scale) &&
+            mouseWorld.y > unit->getPosition().y && mouseWorld.y < unit->getPosition().y + (height * scale) ) {
+            entityHandler->selectedUnits.erase(entityHandler->selectedUnits.begin(), entityHandler->selectedUnits.end());
+            entityHandler->selectedUnitsMap.clear();
+            
+            entityHandler->selectedUnits.push_back(unit);
+            entityHandler->selectedUnitsMap.insert({ unit->getId(), true });
+            std::cout << "added unit " << unit->getId() << '\n';
+            return true;
+        }
+    }
+    return false;
+}
+
+void EventHandler::removeUnitsFromOrder(){
+    for (const auto& unitPtr : entityHandler->selectedUnits) {
+        unitPtr->setCurrentOrder();
+        std::cout << "removed order from unit: " << unitPtr->getId() << '\n';
+    }
+}

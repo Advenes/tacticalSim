@@ -24,6 +24,9 @@ public:
     
     void selectingUnits(Vector2 mouseWorld, InputState inputState, Cam* camera);
     
+    bool selectOneUnit(Vector2 mouseWorld, Cam* camera);
+
+    void removeUnitsFromOrder();
     
     
 private:

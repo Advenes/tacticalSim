@@ -84,10 +84,10 @@ public:
     
     LevelOfCommand getLoc();
     
-    Order* getCurrentOrder(){
+    Order* getCurrentOrder(){		
         return current_order;
     };
-    void setCurrentOrder(Order* _order){
+    void setCurrentOrder(Order* _order = nullptr){
         current_order = _order;
     };
     
