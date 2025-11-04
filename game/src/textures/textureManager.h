@@ -24,7 +24,9 @@ public:
     
     void loadTextureByTexture(std::string id, Texture2D texture);
     void loadTextureByPath(std::string id, std::string path);
+    void loadImage(std::string id, std::string path);
     Texture2D* getTexture(std::string id);
+    Image* getImage(std::string id);
     
     Texture2D* getBackground();
     
@@ -37,9 +39,12 @@ private:
     void generateUnitTextures();
     void generateUI();
     void loadFonts();
+    void generateMapTerrainImage();
+    void generateMapHeightImage();
     
     void unloadAll();
     
     std::unordered_map<std::string, Texture2D> textures;
+    std::unordered_map<std::string, Image> images;
 };
 

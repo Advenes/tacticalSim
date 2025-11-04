@@ -99,6 +99,10 @@ void InputHandler::mouseInput() {
         eventHandler->removeUnitsFromOrder();
     }
     
+//    if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT)){
+//            eventHandler->
+//    }
+    
     // selecting
     if (inputState.selecting && !IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
         
@@ -113,10 +117,26 @@ void InputHandler::mouseInput() {
         eventHandler->selectingUnits(mouseWorld, inputState, cam);
     }
     
+    if(IsKeyDown(KEY_M) && !inputState.measuring){
+        inputState.measuring = true;
+        inputState.measPos = GetScreenToWorld2D(GetMousePosition(), *cam->getCamera());
+    }
+    
+    if(inputState.measuring){
+        Vector2 mouse = GetScreenToWorld2D(GetMousePosition(), *cam->getCamera());
+        eventHandler->measureDistance(mouse, &inputState, cam);
+    }
+    
+    if(inputState.measuring && !IsKeyDown(KEY_M)){
+        inputState.measuring = false;
 
+    }
     
     if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && !IsKeyDown(KEY_LEFT_SHIFT)){
-        eventHandler->givingOrders(cam);
+        Vector2 mouse = GetScreenToWorld2D(GetMousePosition(), *cam->getCamera());
+        if(!eventHandler->attackUnit(mouse, cam)){
+            eventHandler->givingOrders(cam);
+        }
     }
     
     if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && IsKeyDown(KEY_LEFT_SHIFT)){

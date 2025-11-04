@@ -4,7 +4,7 @@
 int main(){
     SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
     InitWindow(InitalWidth, InitalHeight, "tacticalSim");
-    SetTargetFPS(144);
+    SetTargetFPS(60);
     srand(time(NULL));
     Game game;
     return 0;

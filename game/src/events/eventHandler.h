@@ -7,7 +7,10 @@
 #include "inputs/inputState.h"
 #include "camera/camera.h"
 #include "orders/orderHandler.h"
-
+#include "utis/rangePoints.h"
+#include <set>
+#include <cmath>
+#include <raylib.h>
 
 class EventHandler {
 public:
@@ -25,9 +28,12 @@ public:
     void selectingUnits(Vector2 mouseWorld, InputState inputState, Cam* camera);
     
     bool selectOneUnit(Vector2 mouseWorld, Cam* camera);
-
-    void removeUnitsFromOrder();
     
+    bool attackUnit(Vector2 mouseWorld, Cam* camera);
+
+    void measureDistance(Vector2 mouse, InputState* inputState, Cam* camera);
+    
+    void removeUnitsFromOrder();
     
 private:
     EntityHandler* entityHandler;

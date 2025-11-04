@@ -30,7 +30,11 @@ public:
         }
     }
     void updateTime();
-    
+
+    int getTime() {
+        return timeElapsed;
+    }
+
 private:
     int timeElapsed = 0;
 };

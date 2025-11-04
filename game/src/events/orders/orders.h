@@ -18,11 +18,12 @@ public:
     
 class Order {
 public:
-    std::unordered_map<Unit*, std::list<MovePoint>::iterator> unitsFollowing;
+
     Order() {}
     virtual ~Order() = default;
     
-    virtual void execute() = 0;
+    virtual bool execute() = 0;
+
     id getId();
     void setId(id _id);
 
@@ -38,12 +39,15 @@ enum class Speed {
 
 class MovingOrder : public Order {
 public:
+    std::unordered_map<Unit*, std::list<MovePoint>::iterator> unitsFollowing;
+    
     MovingOrder() : Order() {}
     std::list<MovePoint> points;
 
-    void execute() override;
+    bool execute() override;
     void addMovingPoint(MovePoint point);
     void removeLastMovingPoint();
+
     Speed getSpeed(){
         return ordersSpeed;
     }
@@ -53,4 +57,17 @@ public:
     
 private:
     Speed ordersSpeed;
+};
+
+class AttackOrder : public Order{
+public:
+    std::unordered_map<Unit*, Unit*> unitsFollowingAndAttacked;
+    
+    AttackOrder() : Order() {}
+    Unit* attackedUnit;
+    
+    bool execute() override;
+    
+private:
+
 };

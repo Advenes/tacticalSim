@@ -23,6 +23,30 @@ void Scene::renderInputs(InputState *inputState){
         // Optional: handle negative width/height if dragging left/up
         DrawRectangleLines(startX, startY, width, height, WHITE);
     }
+    
+    if(inputState->measuring){
+        Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *camera.getCamera());
+        DrawLineEx(inputState->measPos, mouseWorld, 1.0f / camera.getZoom(), WHITE);
+        std::string distanceStr = std::to_string(inputState->measuringDistance);
+        const char* text = distanceStr.c_str();
+        std::cout << '\n' << "text: " << text << '\n';
+        Vector2 mouse = GetMousePosition();
+        mouse.y -= 20;
+        Vector2 realMid = GetScreenToWorld2D(mouse, *camera.getCamera());
+        DrawText(text, realMid.x, realMid.y, 20 / camera.getZoom(), WHITE);
+    }
+
+    if (inputState->measuring && IsKeyDown(KEY_H)) {
+        Vector2 mouseWorld = GetScreenToWorld2D(GetMousePosition(), *camera.getCamera());
+        int steps = 25;
+        std::vector<MovePoint> points = getLinePoints(inputState->measPos.x, inputState->measPos.y, mouseWorld.x, mouseWorld.y, steps);
+        if (checkForHeightObstructions(inputState->measPos, mouseWorld, points)) {
+            DrawText("obstructed by height", mouseWorld.x + (20 / camera.getZoom()), mouseWorld.y, 20 / camera.getZoom(), RED);
+        }
+        if (checkForTerrainObstructions(inputState->measPos, mouseWorld, points, 200 / (steps / 5) )) {
+            DrawText("obstructed by terrain", mouseWorld.x + (20 / camera.getZoom()), mouseWorld.y + (20 / camera.getZoom()), 20 / camera.getZoom(), RED);
+        }
+    }
 }
 
 void Scene::renderEntities(){

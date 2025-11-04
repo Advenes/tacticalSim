@@ -14,9 +14,10 @@ public:
     EntityHandler() {}
     
     template<typename T>
-    void createUnit(int id, Position pos, LevelOfCommand level) {
+    void createUnit(int id, Position pos, LevelOfCommand level, bool ally) {
         static_assert(std::is_base_of<Unit, T>::value,"T must derive from Unit"); // static assert if T not deriving from Unit
-        unitsArr.push_back(std::make_unique<T>(id, pos, level));
+        
+        unitsArr.push_back(std::make_unique<T>(id, pos, level, ally));
     }
     void removeFromArray(int id);
     void CoutArr();

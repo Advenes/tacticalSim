@@ -47,7 +47,8 @@ public:
 };
 
 struct MoreValues{
-    int speed = 4;
+    int maxEffectiveRange = 200;
+    float speed = 0.06;
     int organization = 100;
     int ammo = 100;
     int food = 100;
@@ -66,8 +67,8 @@ class Order;
 class Unit : public Entity {
 public:
 
-    Unit(int id_, Position pos_, LevelOfCommand level_)
-        : id(id_), pos(pos_), levelOfCommand(level_) {}
+    Unit(int id_, Position pos_, LevelOfCommand level_, bool _ally = true)
+        : id(id_), pos(pos_), levelOfCommand(level_), ally(_ally) {}
 
     virtual ~Unit() {}
     
@@ -87,16 +88,25 @@ public:
     Order* getCurrentOrder(){		
         return current_order;
     };
-    void setCurrentOrder(Order* _order = nullptr){
+    void setCurrentOrder(Order* _order = nullptr    ){
         current_order = _order;
     };
     
     MoreValues values;
+        
+    bool isAlly() const{
+        return ally;
+    }
+    
+    void setTeam(bool _ally){
+        ally = _ally;
+    }
     
 protected:
     int id;
     Position pos;
     LevelOfCommand levelOfCommand;
+    bool ally = true;
     Order* current_order = nullptr;
 };
 
@@ -105,11 +115,14 @@ class Infantry : public Unit {
 public:
 	short int Portrait = rand() % 8;
     
-	Infantry(int id, Position pos, LevelOfCommand level) : Unit(id, pos, level) {
+	Infantry(int id, Position pos, LevelOfCommand level, bool ally) : Unit(id, pos, level, ally) {
 	}
     
     std::string getTextureID() const override {
-        return "infantry";
+        if(isAlly()){
+            return "infantry";
+        }
+        return "opfor_infantry";
     }
 
 };

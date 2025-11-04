@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="98" height="62" viewBox="0 0 1960 1240">
+  <!-- Romb -->
+  <polygon points="750,0 1250,500 750,1000 250,500"
+           fill="#F04A4A" stroke="black" stroke-width="50" stroke-linejoin="round"/>
+
+  <!-- Przekątne ukośne 45° skrócone by nie wychodziły poza romb -->
+  <line x1="375" y1="500" x2="1125" y2="500" stroke="black" stroke-width="30" transform="rotate(45 750 500)" />
+  <line x1="375" y1="500" x2="1125" y2="500" stroke="black" stroke-width="30" transform="rotate(-45 750 500)" />
+</svg>

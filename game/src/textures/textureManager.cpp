@@ -8,6 +8,8 @@ void TextureManager::initAll() {
     generatePortraits();
     generateUnitTextures();
     generateUI();
+    generateMapHeightImage();
+    generateMapTerrainImage();
 }
 
 
@@ -21,6 +23,18 @@ void TextureManager::loadTextureByPath(std::string id, std::string path) {
     textures[id] = texture;
 }
 
+void TextureManager::loadImage(std::string id, std::string path) {
+    Image texture = LoadImage(path.c_str());
+    if (texture.data == NULL) {
+        std::cerr << "[ERROR] Failed to load image: " << path << std::endl;
+    }
+    images[id] = texture;
+}
+
+Image* TextureManager::getImage(std::string id){
+    return &images[id];
+}
+
 Texture2D* TextureManager::getTexture(std::string id) {
     return &textures[id];
 }
@@ -29,11 +43,23 @@ void TextureManager::unloadAll() {
     for (auto& pair : textures) {
         UnloadTexture(pair.second);
     }
+    for(auto& pair : images){
+        UnloadImage(pair.second);
+    }
+    
     textures.clear();
 }
 
 void TextureManager::generateMapTerrainTxt() {
     loadTextureByPath("mapTerrain", "../../game/images/map/terrain.png");
+}
+
+void TextureManager::generateMapTerrainImage() {
+    loadImage("mapTerrain", "../../game/images/map/terrain.png");
+}
+
+void TextureManager::generateMapHeightImage() {
+    loadImage("mapHeight", "../../game/images/map/heightmap.png");
 }
 
 void TextureManager::generateMapHeightTxt() {
@@ -66,8 +92,8 @@ void TextureManager::generatePortraits() {
 
 void TextureManager::generateUnitTextures(){
     std::vector<std::string> unitNames = {
-        "infantry"
-        
+        "infantry",
+        "opfor_infantry"
     };
 
     for (size_t i = 0; i < unitNames.size(); i++) {

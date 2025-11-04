@@ -8,12 +8,23 @@
 *.VC.db
 
 # Build output
+build/
 bin/
 obj/
 *.exe
 *.dll
 *.pdb
 *.ilk
+
+# Cmake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+cmake-build-debug
+
+# clion
+.idea/
 
 # Backup / logs
 *.log
