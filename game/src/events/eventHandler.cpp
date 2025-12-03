@@ -212,12 +212,14 @@ bool EventHandler::attackUnit(Vector2 mouseWorld, Cam* cam){
                 }
                 
                 
-                attackingUnits.push_back(unit);
+                attackingUnits.push_back(unitAttacking);
             }
             
             for(auto& unitAttacking : attackingUnits){
                 attackOrder->unitsFollowingAndAttacked[unitAttacking] = unit;
+                unitAttacking->setCurrentOrder(attackOrder);
                 std::cout << unitAttacking->getId() << " - unit Attacking -> " << unit->getId() << '\n';
+                std::cout << "current order id: " <<unitAttacking->getCurrentOrder()->getId() << '\n';
             }
             if(!attackingUnits.empty()){
                 return true;
@@ -239,7 +241,7 @@ void EventHandler::measureDistance(Vector2 mouse, InputState* inputState, Cam* c
 
 void EventHandler::removeUnitsFromOrder(){
     for (const auto& unitPtr : entityHandler->selectedUnits) {
-        unitPtr->setCurrentOrder();
+        unitPtr->setCurrentOrder(nullptr);
         std::cout << "removed order from unit: " << unitPtr->getId() << '\n';
     }
 }

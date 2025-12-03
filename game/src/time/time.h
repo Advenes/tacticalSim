@@ -4,12 +4,10 @@
 
 class GameTime{
 private:
-    GameTime(){
-        
-    }
-    ~GameTime(){
-        
-    }
+    GameTime() = default;
+    ~GameTime() = default;
+
+    GameTime(const GameTime&) = delete;
 
 public:
     static GameTime& get(){

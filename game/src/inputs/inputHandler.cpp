@@ -10,7 +10,7 @@ void InputHandler::inputReciever() {
     float centerY = GetScreenHeight() / 2.0f / cam->getZoom();
 
     if (wheelMove > 0) {
-        cam->setZoom(cam->getZoom() + zoomMagnifier);
+        cam->setZoom(cam->getZoom() + zoomMagnifier  * cam->getZoom());
 
         float newCenterX = GetScreenWidth() / 2.0f / cam->getZoom();
         float newCenterY = GetScreenHeight() / 2.0f / cam->getZoom();
@@ -45,10 +45,10 @@ void InputHandler::inputReciever() {
     float y = cam->getTargetY();
 
     // WASD movement
-    if (IsKeyDown(KEY_W) && y > 0) y -= 5;
-    if (IsKeyDown(KEY_S) && y < maxY) y += 5;
-    if (IsKeyDown(KEY_A) && x > 0) x -= 5;
-    if (IsKeyDown(KEY_D) && x < maxX) x += 5;
+    if (IsKeyDown(KEY_W) && y > 0) y -= std::max<int>(10 / cam->getZoom(), 2);
+    if (IsKeyDown(KEY_S) && y < maxY) y +=  std::max<int>( 10  / cam->getZoom(), 2);
+    if (IsKeyDown(KEY_A) && x > 0) x -= std::max<int>(10  / cam->getZoom(), 2);
+    if (IsKeyDown(KEY_D) && x < maxX) x += std::max<int>(10  / cam->getZoom(), 2);
 
 //    std::cout << maxX << " " << maxY << '\n';
 //    std::cout << "views " << viewH << " " << viewW << '\n';

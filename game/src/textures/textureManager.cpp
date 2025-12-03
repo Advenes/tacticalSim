@@ -1,6 +1,7 @@
 #include "textureManager.h"
 
 void TextureManager::initAll() {
+    generateMapRenderedTxt();
     generateMapTerrainTxt();
     generateMapHeightTxt();
     generateHudTxt();
@@ -48,6 +49,10 @@ void TextureManager::unloadAll() {
     }
     
     textures.clear();
+}
+
+void TextureManager::generateMapRenderedTxt() {
+    loadTextureByPath("renderedMap", "../../game/images/map/renderedMap.png");
 }
 
 void TextureManager::generateMapTerrainTxt() {
@@ -115,5 +120,5 @@ void TextureManager::generateUI(){
 }
 
 Texture2D* TextureManager::getBackground(){
-    return &textures["mapTerrain"];
+    return &textures["renderedMap"];
 }

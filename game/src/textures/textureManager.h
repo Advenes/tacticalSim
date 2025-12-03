@@ -31,6 +31,7 @@ public:
     Texture2D* getBackground();
     
 private:
+    void generateMapRenderedTxt();
     void generateMapTerrainTxt();
     void generateMapHeightTxt();
     void generateHudTxt();

@@ -6,6 +6,10 @@
 #include "entities/entity.h"
 #include "inputs/inputState.h"
 #include "camera/camera.h"
+#include "time/time.h"
+#include <random>
+#include <cmath>
+#include <algorithm>
 
 using id = uint32_t;
 
@@ -23,6 +27,8 @@ public:
     virtual ~Order() = default;
     
     virtual bool execute() = 0;
+
+    virtual void removeUnitFromOrder(Unit* unit) = 0;
 
     id getId();
     void setId(id _id);
@@ -48,6 +54,10 @@ public:
     void addMovingPoint(MovePoint point);
     void removeLastMovingPoint();
 
+    void removeUnitFromOrder(Unit *unit) override {
+        unitsFollowing.erase(unit);
+    }
+
     Speed getSpeed(){
         return ordersSpeed;
     }
@@ -67,7 +77,10 @@ public:
     Unit* attackedUnit;
     
     bool execute() override;
-    
+
+    void removeUnitFromOrder(Unit *unit) override {
+        unitsFollowingAndAttacked.erase(unit);
+    }
 private:
 
 };

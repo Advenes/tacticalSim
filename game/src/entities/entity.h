@@ -48,7 +48,7 @@ public:
 
 struct MoreValues{
     int maxEffectiveRange = 200;
-    float speed = 0.06;
+    float speed = 0.08;
     int organization = 100;
     int ammo = 100;
     int food = 100;

@@ -10,6 +10,7 @@ void Scene::renderScene(InputState* inputState){
 
 void Scene::renderBackground(){
     Render::renderSprite(TextureManager::get().getBackground(), {0,0}, 1, WHITE);
+    renderedSquares.renderSquares(&camera);
 }
 
 void Scene::renderInputs(InputState *inputState){

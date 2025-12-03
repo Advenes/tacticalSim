@@ -1,13 +1,13 @@
-    #pragma once
-    #include <iostream>
-    #include "raylib.h"
-    #include "render/render.h"
-    #include "camera/camera.h"
-    #include "inputs/inputState.h"
-    #include "inputs/inputHandler.h"
-    #include "textures/textureManager.h"
-    #include "entities/entity.h"
-
+#pragma once
+#include <iostream>
+#include "raylib.h"
+#include "render/render.h"
+#include "camera/camera.h"
+#include "inputs/inputState.h"
+#include "inputs/inputHandler.h"
+#include "textures/textureManager.h"
+#include "entities/entity.h"
+#include "interface/mapSquares.h"
     class Scene{
     private:
         EntityHandler* entityHandler;
@@ -16,7 +16,7 @@
         Scene(EntityHandler* _entityHandler) : entityHandler(_entityHandler) {
             createUnit<Infantry>(1, {200, 200}, LevelOfCommand::PLATOON);
             createUnit<Infantry>(2, {400, 250}, LevelOfCommand::SQUAD);
-            createUnit<Infantry>(3, {600, 250}, LevelOfCommand::SQUAD, false);
+            createUnit<Infantry>(3, {420, 250}, LevelOfCommand::SQUAD, false);
             
         }
         ~Scene(){
@@ -43,6 +43,8 @@
         int getSceneHeight();
 
         Cam camera;
+        RenderedSquares renderedSquares;
+
         int backgroundX, backgroundY = 0;
         float hudScale = 1.0f;
     };
