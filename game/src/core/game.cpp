@@ -13,6 +13,7 @@ void Game::gameLoop(){
         
         // things related to time:
         if(!GameTime::get().timePaused){
+            eventHandler.checkUnitStatus();
             eventHandler.executeOrders();
         }
         

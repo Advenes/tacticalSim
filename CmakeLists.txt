@@ -36,7 +36,7 @@ include(FetchContent)
 set(RAYLIB_VERSION 5.5)
 
 if(WIN32)
-    set(RAYLIB_URL "https://github.com/raysan5/raylib/releases/download/${RAYLIB_VERSION}/raylib-${RAYLIB_VERSION}_win64_msvc16.zip")
+    set(RAYLIB_URL "https://github.com/raysan5/raylib/releases/download/${RAYLIB_VERSION}/raylib-${RAYLIB_VERSION}_win64_mingw-w64.zip")
 elseif(APPLE)
     set(RAYLIB_URL "https://github.com/raysan5/raylib/releases/download/${RAYLIB_VERSION}/raylib-${RAYLIB_VERSION}_macos.tar.gz")
 elseif(UNIX)
@@ -63,7 +63,7 @@ target_include_directories(game PRIVATE
 
 if(WIN32)
     target_link_libraries(game
-            ${RAYLIB_LIB_DIR}/raylib.lib
+            ${RAYLIB_LIB_DIR}/libraylib.a
             winmm gdi32 opengl32
     )
     target_compile_definitions(game PRIVATE _CRT_SECURE_NO_WARNINGS)

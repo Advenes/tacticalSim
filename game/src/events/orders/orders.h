@@ -84,3 +84,19 @@ public:
 private:
 
 };
+
+class AttackedOrder : public Order {
+    public:
+
+    AttackedOrder(AttackOrder* attackingOrder_) : Order() {
+        attackingOrder = attackingOrder_;
+    }
+
+    bool execute() override {return true;};
+
+    void removeUnitFromOrder(Unit *unit) override {
+
+    }
+
+    AttackOrder* attackingOrder;
+};

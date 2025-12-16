@@ -20,7 +20,9 @@ public:
 	OrderHandler orderHandler;
     
     void executeOrders();
-    
+
+    void checkUnitStatus();
+
     void addToOrders(Cam* cam);
     
     void givingOrders(Cam* cam);

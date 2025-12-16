@@ -67,6 +67,35 @@ void EventHandler::executeOrders() {
     }
 }
 
+void EventHandler::checkUnitStatus(){
+    for (auto it = entityHandler->unitsArr.begin(); it != entityHandler->unitsArr.end(); it++) {
+        if (it->get()->values.organization < 0) {
+            it = entityHandler->unitsArr.erase(it);
+        }
+        if (it->get()->values.organization < 5) {
+            if (auto* attackedOrder = dynamic_cast<AttackedOrder*>(it->get()->getCurrentOrder())){ // is attacked
+                for (auto &unit : attackedOrder->attackingOrder->unitsFollowingAndAttacked) {
+                    unit.first->setCurrentOrder(nullptr);
+                }
+            }
+
+            Position defenderVec = it->get()->getPosition();
+            Position attackerVec;
+
+            Position backingUpVec = {defenderVec.x - attackerVec.x, defenderVec.y - attackerVec.y };
+
+            id orderId = orderHandler.addOrder(std::make_unique<MovingOrder>());
+            Order* order = orderHandler.orders[orderId].get();
+            MovingOrder* movingOrder = dynamic_cast<MovingOrder*>(order);
+            movingOrder->addMovingPoint(MovePoint(backingUpVec.x, backingUpVec.y));
+            movingOrder->setSpeed(Speed::FAST);
+
+            movingOrder->unitsFollowing[it->get()] = movingOrder->points.begin();
+            it->get()->setCurrentOrder(movingOrder);
+        }
+    }
+}
+
 void EventHandler::addToOrders(Cam* cam){
     for(auto &unit : entityHandler->selectedUnits){
         if(unit->getCurrentOrder() == nullptr){
@@ -221,6 +250,9 @@ bool EventHandler::attackUnit(Vector2 mouseWorld, Cam* cam){
                 std::cout << unitAttacking->getId() << " - unit Attacking -> " << unit->getId() << '\n';
                 std::cout << "current order id: " <<unitAttacking->getCurrentOrder()->getId() << '\n';
             }
+            id attackedOrderId = orderHandler.addOrder(std::make_unique<AttackedOrder>(attackOrder));
+            Order* attackedOrder = orderHandler.orders[attackedOrderId].get();
+            unit->setCurrentOrder(attackedOrder);
             if(!attackingUnits.empty()){
                 return true;
             }
